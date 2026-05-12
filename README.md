@@ -16,4 +16,4 @@ O projeto Agenda Web tem como objetivo permitir o gerenciamento de compromissos,
 ```bash
 git clone https://github.com/yudleblenda/AgendaWeb.git
 
-2. Abra o index.html no navegador
+### 2. Abra o index.html no navegador
