@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Home - Agenda</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/css/home.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <aside class="sidebar-left">
+      <div class="top-nav">
+        <div class="app-icon">
+          <img src="../assets/image/calendar.svg" alt="Ícone Agenda">
+        </div>
+
+        <nav class="menu-nav">
+          <a href="#" class="menu-item active">
+            <span class="icon-placeholder">📅</span> Agenda
+          </a>
+          <a href="#" class="menu-item">
+            <span class="icon-placeholder">📋</span> Tarefas
+          </a>
+          <a href="#" class="menu-item">
+            <span class="icon-placeholder">🔔</span> Lembretes
+          </a>
+        </nav>
+      </div>
+
+      <div class="bottom-nav">
+        <button class="btn-new-event">
+          <span class="plus-icon">+</span> Novo agendamento
+        </button>
+
+        <div class="user-profile">
+          <img src="https://github.com/identicons/johndoe.png" alt="Foto do usuário" class="avatar">
+          <div class="user-info">
+            <span class="user-name">Ana Blenda</span>
+            <span class="arrow-down">▼</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-calendar">
+      <header class="calendar-header">
+        <button class="btn-arrow">&lt;</button>
+        <h2>Maio 2026</h2>
+        <button class="btn-arrow">&gt;</button>
+      </header>
+
+      <div class="week-days-grid">
+        <div class="day-col-header"><span>S</span><span>27</span></div>
+        <div class="day-col-header"><span>T</span><span>28</span></div>
+        <div class="day-col-header"><span>Q</span><span>29</span></div>
+        <div class="day-col-header"><span>Q</span><span>30</span></div>
+        <div class="day-col-header"><span>S</span><span>1</span></div>
+        <div class="day-col-header active"><span>S</span><span class="day-bubble">2</span></div>
+        <div class="day-col-header"><span>D</span><span>3</span></div>
+        <div class="day-col-header"><span>S</span><span>4</span></div>
+        <div class="day-col-header"><span>T</span><span>5</span></div>
+        <div class="day-col-header"><span>Q</span><span>6</span></div>
+        <div class="day-col-header"><span>Q</span><span>7</span></div>
+        <div class="day-col-header"><span>S</span><span>8</span></div>
+      </div>
+
+      <div class="hours-container">
+        
+        <div class="hour-row">
+          <span class="time-label">08:00</span>
+          <div class="hour-slot"></div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">09:00</span>
+          <div class="hour-slot">
+            <div class="event-card card-blue">
+              <h4>Reunião com equipe</h4>
+              <p class="event-time">09:00 - 11:00</p>
+              <p class="event-desc">Resolver a parte de UI do website.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">10:00</span>
+          <div class="hour-slot"></div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">11:00</span>
+          <div class="hour-slot"></div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">12:00</span>
+          <div class="hour-slot"></div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">13:00</span>
+          <div class="hour-slot"></div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">14:00</span>
+          <div class="hour-slot"></div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">15:00</span>
+          <div class="hour-slot"></div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">16:00</span>
+          <div class="hour-slot">
+            <div class="event-card card-yellow">
+              <h4>Projeto</h4>
+              <p class="event-time">16:00 - 17:00</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">17:00</span>
+          <div class="hour-slot"></div>
+        </div>
+
+        <div class="hour-row">
+          <span class="time-label">18:00</span>
+          <div class="hour-slot"></div>
+        </div>
+
+      </div>
+    </main>
+
+    <aside class="sidebar-right">
+      
+      <div class="today-info">
+        <h3>Sábado,</h3>
+        <span class="highlight-date">2 de Maio</span>
+      </div>
+
+      <div class="mini-calendar">
+        <header class="mini-cal-header">
+          <span class="arrow-mini">&lt;</span>
+          <span class="mini-month">Maio 2026</span>
+          <span class="arrow-mini">&gt;</span>
+        </header>
+        
+        <div class="mini-cal-days-grid">
+          <span class="week-label">D</span><span class="week-label">S</span><span class="week-label">T</span><span class="week-label">Q</span><span class="week-label">Q</span><span class="week-label">S</span><span class="week-label">S</span>
+          
+          <span class="day-off">27</span><span class="day-off">28</span><span class="day-off">29</span><span class="day-off">30</span><span>1</span><span class="mini-active">2</span><span>3</span>
+          <span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+          <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span>
+          <span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span>
+          <span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+        </div>
+      </div>
+
+      <div class="tasks-section">
+        <h3>Próximas tarefas</h3>
+        
+        <div class="tasks-wrapper">
+          <label class="task-item checked">
+            <input type="checkbox" checked>
+            <div class="task-info">
+              <p class="task-title">Enviar relatório</p>
+              <span class="task-time">Hoje • 12:00</span>
+            </div>
+          </label>
+
+          <label class="task-item">
+            <input type="checkbox">
+            <div class="task-info">
+              <p class="task-title">Preparar apresentação</p>
+              <span class="task-time">Amanhã • 08:00</span>
+            </div>
+          </label>
+
+          <label class="task-item">
+            <input type="checkbox">
+            <div class="task-info">
+              <p class="task-title">Revisar papelada</p>
+              <span class="task-time">Sexta-feira • 14:00</span>
+            </div>
+          </label>
+
+          <label class="task-item">
+            <input type="checkbox">
+            <div class="task-info">
+              <p class="task-title">Planejar campanha</p>
+              <span class="task-time">Segunda-feira • 10:00</span>
+            </div>
+          </label>
+
+          <label class="task-item">
+            <input type="checkbox">
+            <div class="task-info">
+              <p class="task-title">Enviar campanha</p>
+              <span class="task-time">Quarta-feira • 09:00</span>
+            </div>
+          </label>
+
+          <label class="task-item">
+            <input type="checkbox">
+            <div class="task-info">
+              <p class="task-title">Sair com família</p>
+              <span class="task-time">Sábado • 19:00</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <div class="modal-overlay" id="modalNovoAgendamento">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2>Novo agendamento</h2>
+      </header>
+
+      <form class="modal-form">
+        <div class="m-input-group">
+          <label>Título do compromisso</label>
+          <input type="text" placeholder="Ex: Reunião com cliente">
+        </div>
+
+        <div class="m-input-group">
+          <label>Descrição do compromisso</label>
+          <textarea placeholder="Adicione detalhes sobre o compromisso..."></textarea>
+        </div>
+
+        <div class="m-form-grid">
+          <div class="m-input-group">
+            <label>Data</label>
+            <input type="date" value="2026-05-02">
+          </div>
+          <div class="m-input-group">
+            <label>Horário</label>
+            <div class="time-range">
+              <input type="time" value="09:00">
+              <span>até</span>
+              <input type="time" value="10:00">
+            </div>
+          </div>
+        </div>
+
+        <div class="m-form-grid-three">
+          <div class="m-input-group">
+            <label>Categoria</label>
+            <select>
+              <option>Lembretes</option>
+              <option>Trabalho</option>
+              <option>Pessoal</option>
+            </select>
+          </div>
+          <div class="m-input-group">
+            <label>Local</label>
+            <input type="text" placeholder="Ex: Sala 301">
+          </div>
+          <div class="m-input-group">
+            <label>Lembrete</label>
+            <select>
+              <option>10 minutos antes</option>
+              <option>30 minutos antes</option>
+              <option>1 hora antes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="m-options">
+          <label class="check-container">
+            <input type="checkbox"> Recorrente
+          </label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+          <button type="submit" class="btn-criar">Criar agendamento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const btnNovo = document.querySelector('.btn-new-event');
+    const modal = document.getElementById('modalNovoAgendamento');
+
+    btnNovo.addEventListener('click', () => {
+      modal.classList.add('active');
+    });
+
+    function fecharModal() {
+      modal.classList.remove('active');
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) fecharModal();
+    });
+  </script>
+
+</body>
+</html>
