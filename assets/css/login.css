@@ -10,33 +10,34 @@ body {
 }
 
 .login-container {
-  width: 100%;
   min-height: 100vh;
-
+  padding: 40px 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 50px;
-
-  padding: 40px;
 }
 
 .login-image img {
-  width: 700px;
-  border-radius: 32px;
+ width: 100%;
+ max-width: 900px; 
+ height: 760px; 
+ object-fit: cover; 
+ border-radius: 32px;
 }
 
 .login-content {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   max-width: 500px;
+  margin-top: 0px;
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 12px;
-
-  margin-bottom: 60px;
+  margin-bottom: 55px;
 }
 
 .logo img {
@@ -53,22 +54,21 @@ body {
 }
 
 .login-text h1 {
-  font-size: 52px;
+  font-size: 42px;
+  font-weight: 700;
   margin-bottom: 18px;
-  line-height: 1.1;
+  line-height: 1.15;
+}
+
+.login-text p {
+  font-size: 20px;
+  color: #666;
+  line-height: 1.4;
+  margin-bottom: 42px;
 }
 
 .login-text h1 span {
   color: #3B82F6;
-}
-
-.login-text p {
-  font-size: 22px;
-  color: #666;
-
-  line-height: 1.5;
-
-  margin-bottom: 50px;
 }
 
 .login-form {
@@ -77,29 +77,24 @@ body {
   gap: 24px;
 }
 
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.input-group label {
+.form-group label {
   font-size: 18px;
   font-weight: 600;
 }
 
-.input-group input {
-  height: 64px;
-
+.form-control {
+  height: 56px;
   border: none;
-
   background: #ECECEC;
-
   border-radius: 14px;
-
   padding: 0 20px;
-
   font-size: 16px;
+}
+
+.form-control:focus {
+  background: #ECECEC;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  border: none;
 }
 
 .login-options {
@@ -112,8 +107,16 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-
   font-size: 14px;
+}
+
+.remember input {
+  width: 16px;
+  height: 16px;
+
+  accent-color: #3B82F6;
+
+  cursor: pointer;
 }
 
 .login-options a {
@@ -123,22 +126,20 @@ body {
 }
 
 .btn-login {
-  height: 62px;
-
-  border: none;
-
-  border-radius: 14px;
-
-  background: linear-gradient(135deg, #3B82F6, #2563EB);
-
-  color: white;
-
-  font-size: 18px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.3s;
+  height: 58px; 
+  border: none; 
+  border-radius: 14px; 
+  background: linear-gradient(135deg, #3B82F6, #2563EB); 
+  color: white; 
+  font-size: 18px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: 0.3s; 
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  text-decoration: none;
 }
 
 .btn-login:hover {
@@ -147,15 +148,60 @@ body {
 
 .btn-google {
   height: 62px;
-
   border-radius: 14px;
-
   border: 1px solid #D9D9D9;
-
   background: white;
-
   font-size: 18px;
   font-weight: 600;
+  cursor: pointer;
+}
+
+.register-link {
+  text-align: center;
+  font-size: 15px;
+  color: #666;
+}
+
+.register-link a {
+  color: #3B82F6;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.row {
+  gap: 0px;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.input-icon {
+  position: relative;
+}
+
+.input-icon svg {
+  position: absolute;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 18px;
+  height: 18px;
+
+  color: #9E9E9E;
+}
+
+.input-icon svg:first-child {
+  left: 18px;
+}
+
+.toggle-password {
+  right: 18px;
+  left: auto !important;
 
   cursor: pointer;
+}
+
+.input-icon .form-control {
+  padding-left: 50px;
+  padding-right: 50px;
 }

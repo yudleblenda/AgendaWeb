@@ -6,32 +6,28 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #3B82F6; /* Azul principal idêntico ao seu sistema */
+  background-color: #3B82F6;
   color: #000;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 12px;
   overflow: hidden;
 }
 
-/* CONTAINER DO APP (MOLDURA BRANCA DO FIGMA) */
 .app-container {
   width: 100%;
   max-width: 1440px;
-  height: 92vh;
+  height: 88vh;
   background-color: #FFFFFF;
   border-radius: 24px;
   display: grid;
-  grid-template-columns: 240px 1fr 320px;
+  grid-template-columns: 210px 1fr 340px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* ==========================================================================
-   SIDEBAR ESQUERDA (MENU)
-   ========================================================================== */
 .sidebar-left {
   background-color: #FFFFFF;
   border-right: 1px solid #ECECEC;
@@ -41,46 +37,22 @@ body {
   justify-content: space-between;
 }
 
-.app-icon img {
-  width: 35px;
-  margin-left: 10px;
-  margin-bottom: 40px;
-}
-
-.menu-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.menu-item {
+.app-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  text-decoration: none;
-  color: #666;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 14px;
-  transition: 0.3s;
+  gap: 10px;
+  margin-left: 10px;
 }
 
-.menu-item:hover {
-  background-color: #F5F5F5;
-  color: #000;
+.app-logo span {
+  font-size: 20px;
+  font-weight: 700;
 }
 
-.menu-item.active {
-  background-color: #3B82F6;
-  color: #FFFFFF;
+.app-logo img {
+  width: 30px;
 }
 
-.icon-placeholder {
-  font-size: 18px;
-}
-
-/* RODAPÉ DA SIDEBAR */
 .bottom-nav {
   display: flex;
   flex-direction: column;
@@ -90,9 +62,9 @@ body {
 .btn-new-event {
   width: 100%;
   height: 50px;
-  background: transparent;
+  background: #3B82F6;
   border: 1px solid #3B82F6;
-  color: #3B82F6;
+  color: white;
   border-radius: 25px;
   font-size: 15px;
   font-weight: 700;
@@ -105,7 +77,8 @@ body {
 }
 
 .btn-new-event:hover {
-  background-color: #3B82F6;
+  background-color: #2563EB;
+  border-color: #2563EB;
   color: white;
 }
 
@@ -141,14 +114,12 @@ body {
   color: #666;
 }
 
-/* ==========================================================================
-   CONTEÚDO CENTRAL (CALENDÁRIO DA AGENDA)
-   ========================================================================== */
 .main-calendar {
   padding: 30px;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden;
+  min-width: 0;
 }
 
 .calendar-header {
@@ -172,7 +143,6 @@ body {
   padding: 5px;
 }
 
-/* Grade de dias no topo */
 .week-days-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -213,7 +183,6 @@ body {
   justify-content: center;
 }
 
-/* Lista horizontal e vertical de horas */
 .hours-container {
   flex: 1;
   display: flex;
@@ -223,7 +192,7 @@ body {
 .hour-row {
   display: flex;
   position: relative;
-  min-height: 70px;
+  min-height: 58px;
   border-bottom: 1px dashed #F0F0F0;
 }
 
@@ -242,18 +211,20 @@ body {
   padding-left: 10px;
 }
 
-/* Eventos */
 .event-card {
   position: absolute;
   left: 10px;
   right: 10px;
   top: 5px;
+
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 10px 14px;
+
   display: flex;
   flex-direction: column;
+  justify-content: center;
+
   gap: 4px;
-  z-index: 2;
 }
 
 .card-blue {
@@ -282,9 +253,6 @@ body {
   margin-top: 2px;
 }
 
-/* ==========================================================================
-   SIDEBAR DIREITA (MINI CALENDÁRIO + TAREFAS)
-   ========================================================================== */
 .sidebar-right {
   border-left: 1px solid #ECECEC;
   padding: 30px 24px;
@@ -299,13 +267,12 @@ body {
   font-weight: 800;
 }
 
-.highlight-date {
-  font-size: 18px;
+.today-info .highlight-date {
+  font-size: 20px;
   color: #3B82F6;
-  font-weight: 700;
+  font-weight: 800;
 }
 
-/* Mini Calendário */
 .mini-calendar {
   border: 1px solid #ECECEC;
   border-radius: 16px;
@@ -362,7 +329,6 @@ body {
   margin: 0 auto;
 }
 
-/* Lista de Tarefas */
 .tasks-section h3 {
   font-size: 18px;
   font-weight: 800;
@@ -411,9 +377,6 @@ body {
   margin-top: 2px;
 }
 
-/* ==========================================================================
-   ESTILOS DO MODAL UI
-   ========================================================================== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -544,20 +507,75 @@ body {
   background: #2563EB;
 }
 
-/* RESPONSIVIDADE */
 @media (max-width: 1100px) {
   .app-container {
     grid-template-columns: 80px 1fr;
   }
+
   .sidebar-right {
     display: none;
   }
-  .menu-item {
-    justify-content: center;
-    padding: 14px 0;
-    font-size: 0;
-  }
-  .user-info, .btn-new-event {
+
+  .btn-new-event,
+  .user-info {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+    overflow: auto;
+  }
+
+  .app-container {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    border-radius: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-left {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-right: none;
+    border-bottom: 1px solid #ECECEC;
+    padding: 16px 20px;
+  }
+
+  .app-logo img {
+    margin: 0;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+
+  .main-calendar {
+    padding: 16px;
+    overflow: visible;
+  }
+
+  .calendar-header {
+    justify-content: center;
+  }
+
+  .week-days-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+    overflow-x: auto;
+  }
+
+  .hour-row {
+    min-height: 70px;
+  }
+
+  .event-card {
+    position: relative;
+    left: 0;
+    right: auto;
+    top: 0;
   }
 }

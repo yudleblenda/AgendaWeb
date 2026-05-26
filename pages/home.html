@@ -20,21 +20,10 @@
 
     <aside class="sidebar-left">
       <div class="top-nav">
-        <div class="app-icon">
-          <img src="../assets/image/calendar.svg" alt="Ícone Agenda">
+        <div class="app-logo">
+          <img src="../assets/image/calendar.svg" alt="">
+          <span>Agenda</span>
         </div>
-
-        <nav class="menu-nav">
-          <a href="#" class="menu-item active">
-            <span class="icon-placeholder">📅</span> Agenda
-          </a>
-          <a href="#" class="menu-item">
-            <span class="icon-placeholder">📋</span> Tarefas
-          </a>
-          <a href="#" class="menu-item">
-            <span class="icon-placeholder">🔔</span> Lembretes
-          </a>
-        </nav>
       </div>
 
       <div class="bottom-nav">
@@ -45,7 +34,7 @@
         <div class="user-profile">
           <img src="https://github.com/identicons/johndoe.png" alt="Foto do usuário" class="avatar">
           <div class="user-info">
-            <span class="user-name">Ana Blenda</span>
+            <span class="user-name">João Lima</span>
             <span class="arrow-down">▼</span>
           </div>
         </div>
@@ -148,8 +137,7 @@
     <aside class="sidebar-right">
       
       <div class="today-info">
-        <h3>Sábado,</h3>
-        <span class="highlight-date">2 de Maio</span>
+        <h3>Sábado, <span class="highlight-date">2 de Maio</span></h3>
       </div>
 
       <div class="mini-calendar">
@@ -312,6 +300,11 @@
     modal.addEventListener('click', (e) => {
       if (e.target === modal) fecharModal();
     });
+  </script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
   </script>
 
 </body>
