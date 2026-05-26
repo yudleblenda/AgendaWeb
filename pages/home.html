@@ -35,7 +35,11 @@
           <img src="https://github.com/identicons/johndoe.png" alt="Foto do usuário" class="avatar">
           <div class="user-info">
             <span class="user-name">João Lima</span>
-            <span class="arrow-down">▼</span>
+            <i data-lucide="chevron-right" class="arrow-right"></i>
+          </div>
+
+          <div class="profile-menu">
+            <button class="btn-logout">Sair</button>
           </div>
         </div>
       </div>
@@ -72,13 +76,7 @@
 
         <div class="hour-row">
           <span class="time-label">09:00</span>
-          <div class="hour-slot">
-            <div class="event-card card-blue">
-              <h4>Reunião com equipe</h4>
-              <p class="event-time">09:00 - 11:00</p>
-              <p class="event-desc">Resolver a parte de UI do website.</p>
-            </div>
-          </div>
+          <div class="hour-slot"></div>
         </div>
 
         <div class="hour-row">
@@ -113,12 +111,7 @@
 
         <div class="hour-row">
           <span class="time-label">16:00</span>
-          <div class="hour-slot">
-            <div class="event-card card-yellow">
-              <h4>Projeto</h4>
-              <p class="event-time">16:00 - 17:00</p>
-            </div>
-          </div>
+          <div class="hour-slot"></div>
         </div>
 
         <div class="hour-row">
@@ -278,34 +271,23 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+          <button type="button" class="btn-cancelar">Cancelar</button>
           <button type="submit" class="btn-criar">Criar agendamento</button>
         </div>
       </form>
     </div>
   </div>
 
-  <script>
-    const btnNovo = document.querySelector('.btn-new-event');
-    const modal = document.getElementById('modalNovoAgendamento');
-
-    btnNovo.addEventListener('click', () => {
-      modal.classList.add('active');
-    });
-
-    function fecharModal() {
-      modal.classList.remove('active');
-    }
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) fecharModal();
-    });
-  </script>
+  <script src="../assets/js/home.js"></script>
 
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     lucide.createIcons();
   </script>
+
+  <div class="toast" id="toast">
+    <span id="toastMessage"></span>
+  </div>
 
 </body>
 </html>
