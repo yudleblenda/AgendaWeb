@@ -1,262 +1,340 @@
-const usuarioLogado = localStorage.getItem('usuarioLogado');
+// URL do seu Backend Node.js
+const API_URL = 'http://localhost:3333/agendamentos';
 
-if (usuarioLogado !== 'true') {
-  window.location.href = 'login.html';
-}
+// Controle de Data Atual
+let dataControladora = new Date();
 
-const btnNovo = document.querySelector('.btn-new-event');
-const modal = document.getElementById('modalNovoAgendamento');
-const btnCancelar = document.querySelector('.btn-cancelar');
-const form = document.querySelector('.modal-form');
-const btnCriar = document.querySelector('.btn-criar');
+// Elementos Globais
+let modal;
+let formAgendamento;
 
-let agendamentos = JSON.parse(localStorage.getItem('agendamentos')) || [];
-let agendamentoEditandoId = null;
+/* ==========================================
+   1. INICIALIZAÇÃO SEGURA E CARREGAMENTO
+   ========================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    modal = document.getElementById('modalNovoAgendamento');
+    formAgendamento = document.getElementById('formAgendamento');
+    
+    const miniCalDaysGrid = document.querySelector('.mini-cal-days-grid');
+    const miniMonthLabel = document.querySelector('.mini-month');
 
-btnNovo.addEventListener('click', () => {
-  agendamentoEditandoId = null;
-  form.reset();
-  btnCriar.textContent = 'Criar agendamento';
-  modal.classList.add('active');
-});
-
-btnCancelar.addEventListener('click', () => {
-  fecharModal();
-});
-
-function fecharModal() {
-  modal.classList.remove('active');
-  agendamentoEditandoId = null;
-  form.reset();
-  btnCriar.textContent = 'Criar agendamento';
-}
-
-modal.addEventListener('click', (event) => {
-  if (event.target === modal) {
-    fecharModal();
-  }
-});
-
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const titulo = form.querySelector('input[type="text"]').value;
-  const descricao = form.querySelector('textarea').value;
-  const horarios = form.querySelectorAll('input[type="time"]');
-  const categoria = form.querySelector('select').value;
-
-  const horaInicio = horarios[0].value;
-  const horaFim = horarios[1].value;
-
-  if (!titulo || !horaInicio || !horaFim) {
-    mostrarToast('Preencha o título e o horário do agendamento.');
-    return;
-  }
-
-  const horaNumero = Number(horaInicio.split(':')[0]);
-
-  if (horaNumero < 8 || horaNumero > 18) {
-    mostrarToast('Escolha um horário entre 08:00 e 18:00.');
-    return;
-  }
-
-  if (horaFim <= horaInicio) {
-    mostrarToast('O horário final deve ser maior que o horário inicial.');
-    return;
-  }
-
-  if (agendamentoEditandoId) {
-    editarAgendamento(titulo, descricao, horaInicio, horaFim, categoria);
-  } else {
-    const novoAgendamento = {
-      id: Date.now(),
-      titulo,
-      descricao,
-      horaInicio,
-      horaFim,
-      categoria
-    };
-
-    agendamentos.push(novoAgendamento);
-    salvarAgendamentos();
-  }
-
-  renderizarAgendamentos();
-  fecharModal();
-});
-
-function salvarAgendamentos() {
-  localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
-}
-
-function renderizarAgendamentos() {
-  const slots = document.querySelectorAll('.hour-slot');
-
-  slots.forEach((slot) => {
-    slot.innerHTML = '';
-  });
-
-  agendamentos.forEach((agendamento) => {
-    criarAgendamento(agendamento);
-  });
-}
-
-function criarAgendamento(agendamento) {
-  const hora = agendamento.horaInicio.split(':')[0];
-  const linhaHorario = encontrarLinhaHorario(hora);
-
-  if (!linhaHorario) {
-    mostrarToast('Não existe esse horário na agenda.');
-    return;
-  }
-
-  const slot = linhaHorario.querySelector('.hour-slot');
-
-  const card = document.createElement('div');
-  card.classList.add('event-card', definirCorCategoria(agendamento.categoria));
-  card.setAttribute('data-id', agendamento.id);
-
-  card.innerHTML = `
-    <div class="event-card-header">
-      <h4>${agendamento.titulo}</h4>
-      <button class="btn-delete-event" type="button">×</button>
-    </div>
-
-    <p class="event-time">${agendamento.horaInicio} - ${agendamento.horaFim}</p>
-    ${agendamento.descricao ? `<p class="event-desc">${agendamento.descricao}</p>` : ''}
-  `;
-
-  const btnDelete = card.querySelector('.btn-delete-event');
-
-  btnDelete.addEventListener('click', (event) => {
-    event.stopPropagation();
-
-    excluirAgendamento(agendamento.id);
-    renderizarAgendamentos();
-  });
-
-  card.addEventListener('click', () => {
-    abrirEdicaoAgendamento(agendamento);
-  });
-
-  slot.appendChild(card);
-}
-
-function abrirEdicaoAgendamento(agendamento) {
-  agendamentoEditandoId = agendamento.id;
-
-  const tituloInput = form.querySelector('input[type="text"]');
-  const descricaoInput = form.querySelector('textarea');
-  const horarios = form.querySelectorAll('input[type="time"]');
-  const categoriaInput = form.querySelector('select');
-
-  tituloInput.value = agendamento.titulo;
-  descricaoInput.value = agendamento.descricao;
-  horarios[0].value = agendamento.horaInicio;
-  horarios[1].value = agendamento.horaFim;
-  categoriaInput.value = agendamento.categoria;
-
-  btnCriar.textContent = 'Salvar alterações';
-  modal.classList.add('active');
-}
-
-function editarAgendamento(titulo, descricao, horaInicio, horaFim, categoria) {
-  agendamentos = agendamentos.map((agendamento) => {
-    if (agendamento.id === agendamentoEditandoId) {
-      return {
-        ...agendamento,
-        titulo,
-        descricao,
-        horaInicio,
-        horaFim,
-        categoria
-      };
+    // Inicializa o Calendário Dinâmico
+    if (miniCalDaysGrid) {
+      renderizarCalendario(miniCalDaysGrid, miniMonthLabel);
     }
 
-    return agendamento;
-  });
+    // Carrega os agendamentos salvos assim que a página abre
+    carregarAgendamentos();
 
-  salvarAgendamentos();
-}
-
-function excluirAgendamento(id) {
-  agendamentos = agendamentos.filter((agendamento) => agendamento.id !== id);
-  salvarAgendamentos();
-}
-
-function encontrarLinhaHorario(hora) {
-  const linhas = document.querySelectorAll('.hour-row');
-
-  for (const linha of linhas) {
-    const horarioTexto = linha.querySelector('.time-label').textContent;
-    const horaLinha = horarioTexto.split(':')[0];
-
-    if (horaLinha === hora) {
-      return linha;
+    /* ==========================================
+       2. CONTROLE DO MODAL (ABRIR E FECHAR)
+       ========================================== */
+    if (openModalBtn && modal) {
+      openModalBtn.addEventListener('click', () => {
+        modal.classList.add('active'); 
+      });
     }
-  }
 
-  return null;
+    if (closeModalBtn && modal) {
+      closeModalBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    /* ==========================================
+       3. ENVIO PARA O BACKEND
+       ========================================== */
+    if (formAgendamento) {
+      formAgendamento.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log("Botão Criar Agendamento clicado!");
+
+        try {
+          // Coleta os dados usando Optional Chaining (?.) para evitar quebras se o ID não existir
+          const agendamento = {
+            titulo: document.getElementById('titulo')?.value || '',
+            descricao: document.getElementById('descricao')?.value || '',
+            data: document.getElementById('data')?.value || '',
+            horario_inicio: document.getElementById('horaInicio')?.value || '',
+            horario_fim: document.getElementById('horaFim')?.value || '',
+            categoria: document.getElementById('categoria')?.value || 'Lembretes',
+            localizacao: document.getElementById('local')?.value || '',
+            lembrete: document.getElementById('lembrete')?.value || '10 minutos antes',
+            recorrente: document.getElementById('recorrente')?.checked ? 1 : 0
+          };
+
+          console.log("Dados prontos para envio:", agendamento);
+
+          const resposta = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(agendamento)
+          });
+
+          if (resposta.ok) {
+            exibirToast("Agendamento criado com sucesso! 🚀");
+            formAgendamento.reset();
+            if (modal) modal.classList.remove('active');
+            carregarAgendamentos(); // Atualiza a lista
+          } else {
+            const resultado = await resposta.json();
+            exibirToast("Erro ao criar: " + (resultado.erro || "Verifique os dados"));
+          }
+        } catch (erroForm) {
+          alert("Erro interno ao tentar enviar o formulário: " + erroForm.message);
+        }
+      });
+    }
+  } catch (erroGeral) {
+    console.error("Erro na inicialização do DOM:", erroGeral);
+  }
+});
+
+/* ==========================================
+   4. BUSCAR E RENDERIZAR AGENDAMENTOS (GET)
+   ========================================== */
+async function carregarAgendamentos() {
+  try {
+    const resposta = await fetch(API_URL);
+    if (!resposta.ok) throw new Error("Erro ao buscar dados do servidor");
+    
+    const agendamentos = await resposta.json();
+    
+    renderizarLinhaDoTempo(agendamentos);
+    renderizarProximasTarefas(agendamentos);
+
+  } catch (erro) {
+    console.error("Erro ao carregar agendamentos:", erro);
+  }
 }
 
-function definirCorCategoria(categoria) {
-  if (categoria === 'Trabalho') {
-    return 'card-blue';
-  }
+// 4.1 Desenha os blocos de compromissos na Agenda Central (Corrigido)
+function renderizarLinhaDoTempo(agendamentos) {
+  try {
+    // Remove os blocos antigos para não duplicar
+    document.querySelectorAll('.compromisso-card, .event-block').forEach(el => el.remove());
 
-  if (categoria === 'Pessoal') {
-    return 'card-yellow';
-  }
+    agendamentos.forEach(item => {
+      if (!item.data || !item.horario_inicio) return;
 
-  return 'card-purple';
+      // Trata a data de forma limpa para ignorar fusos horários
+      const dataFormatada = item.data.split('T')[0]; 
+      
+      const anoC = dataControladora.getFullYear();
+      const mesC = String(dataControladora.getMonth() + 1).padStart(2, '0');
+      const diaC = String(dataControladora.getDate()).padStart(2, '0');
+      const dataSelecionadaStr = `${anoC}-${mesC}-${diaC}`;
+
+      // Só renderiza no miolo central se for o mesmo dia selecionado
+      if (dataFormatada === dataSelecionadaStr) {
+        const horaInicio = item.horario_inicio.substring(0, 5);
+        const horaChave = item.horario_inicio.split(':')[0] + ':00';
+        
+        // Seleciona as linhas de horários da agenda central
+        const slots = document.querySelectorAll('.grid-time-slot, .horario-linha, td, div');
+        let slotDestino = null;
+
+        slots.forEach(slot => {
+          if (slot.textContent && slot.textContent.trim().includes(horaChave)) {
+            slotDestino = slot;
+          }
+        });
+
+        if (slotDestino) {
+          const divCompromisso = document.createElement('div');
+          divCompromisso.className = 'compromisso-card';
+          divCompromisso.style.background = '#e0ebff';
+          divCompromisso.style.borderLeft = '4px solid #2563eb';
+          divCompromisso.style.padding = '8px';
+          divCompromisso.style.margin = '4px 0';
+          divCompromisso.style.borderRadius = '6px';
+          divCompromisso.style.zIndex = '10';
+          
+          divCompromisso.innerHTML = `
+            <strong style="color: #1e40af; display:block;">${item.titulo}</strong>
+            <span style="font-size: 12px; color: #4b5563;">${horaInicio} - ${item.localizacao || 'Sem local'}</span>
+          `;
+          
+          slotDestino.appendChild(divCompromisso);
+        }
+      }
+    });
+  } catch (e) {
+    console.error("Erro ao renderizar linha do tempo:", e);
+  }
 }
 
-function mostrarToast(mensagem) {
+// 4.2 Lista todos os agendamentos na lateral direita (Preservando o mini-calendário)
+function renderizarProximasTarefas(agendamentos) {
+  try {
+    // Procura o elemento maior da barra lateral direita
+    const sidebarRight = document.querySelector('.sidebar-right') || document.querySelector('aside');
+    if (!sidebarRight) {
+      console.warn("Não foi possível encontrar o elemento da barra lateral no HTML.");
+      return;
+    }
+
+    // Busca ou cria uma div dedicada EXCLUSIVA para a lista para não zerar o calendário com innerHTML
+    let containerTarefas = document.getElementById('listaTarefasDinamica');
+    
+    if (!containerTarefas) {
+      containerTarefas = document.createElement('div');
+      containerTarefas.id = 'listaTarefasDinamica';
+      containerTarefas.style.marginTop = '20px';
+      containerTarefas.style.width = '100%';
+      sidebarRight.appendChild(containerTarefas);
+    }
+    
+    // Limpa apenas o interior da área dedicada às tarefas
+    containerTarefas.innerHTML = '<h3 style="font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #1f2937;">Próximas tarefas</h3>';
+
+    // Cria uma caixinha interna para listar os itens organizados
+    const listaItens = document.createElement('div');
+    listaItens.style.display = 'flex';
+    listaItens.style.flexDirection = 'column';
+    listaItens.style.gap = '12px';
+    listaItens.style.marginTop = '10px';
+
+    // Ordena os agendamentos por data para mostrar os mais próximos primeiro
+    const ordenados = agendamentos.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+    // Pega os 5 primeiros agendamentos e coloca na lista lateral
+    ordenados.slice(0, 5).forEach(item => {
+      if (!item.data) return;
+      
+      const dataPartes = item.data.split('T')[0].split('-');
+      const dataExibicao = `${dataPartes[2]}/${dataPartes[1]}`; // Formato DD/MM
+      const horaInicio = item.horario_inicio ? item.horario_inicio.substring(0, 5) : '00:00';
+
+      const divTarefa = document.createElement('div');
+      divTarefa.className = 'task-item-lateral';
+      divTarefa.style.display = 'flex';
+      divTarefa.style.justifyContent = 'space-between';
+      divTarefa.style.alignItems = 'center';
+      divTarefa.style.padding = '10px';
+      divTarefa.style.background = '#f9fafb';
+      divTarefa.style.borderRadius = '8px';
+      divTarefa.style.borderLeft = '4px solid #3b82f6';
+
+      divTarefa.innerHTML = `
+        <div>
+          <span style="font-weight: 600; display: block; font-size: 14px; color: #1f2937;">${item.titulo}</span>
+          <span style="font-size: 12px; color: #6b7280;">${item.categoria || 'Geral'}</span>
+        </div>
+        <div style="text-align: right; font-size: 12px; color: #4b5563;">
+          <span style="font-weight: bold; color: #2563eb;">${dataExibicao}</span>
+          <span style="display: block; font-size: 11px; color: #9ca3af;">${horaInicio}</span>
+        </div>
+      `;
+
+      listaItens.appendChild(divTarefa);
+    });
+
+    containerTarefas.appendChild(listaItens);
+  } catch (e) {
+    console.error("Erro ao renderizar próximas tarefas:", e);
+  }
+}
+
+/* ==========================================
+   5. FUNÇÕES DO CALENDÁRIO DINÂMICO
+   ========================================== */
+function renderizarCalendario(miniCalDaysGrid, miniMonthLabel) {
+  const ano = dataControladora.getFullYear();
+  const mes = dataControladora.getMonth();
+
+  const mesesNome = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+  
+  if (miniMonthLabel) {
+    miniMonthLabel.textContent = `${mesesNome[mes]} ${ano}`;
+  }
+
+  const labels = Array.from(miniCalDaysGrid.querySelectorAll('.week-label'));
+  miniCalDaysGrid.innerHTML = '';
+  labels.forEach(label => miniCalDaysGrid.appendChild(label));
+
+  const primeiroDiaSemana = new Date(ano, mes, 1).getDay();
+  const totalDiasMes = new Date(ano, mes + 1, 0).getDate();
+
+  const totalDiasMesAnterior = new Date(ano, mes, 0).getDate();
+  for (let i = primeiroDiaSemana - 1; i >= 0; i--) {
+    const span = document.createElement('span');
+    span.classList.add('day-off');
+    span.textContent = totalDiasMesAnterior - i;
+    miniCalDaysGrid.appendChild(span);
+  }
+
+  const hoje = new Date();
+  for (let dia = 1; dia <= totalDiasMes; dia++) {
+    const span = document.createElement('span');
+    span.textContent = dia;
+
+    if (dia === hoje.getDate() && mes === hoje.getMonth() && ano === hoje.getFullYear()) {
+      span.classList.add('mini-active');
+    }
+
+    span.addEventListener('click', () => {
+      document.querySelectorAll('.mini-cal-days-grid span').forEach(s => s.classList.remove('mini-active'));
+      span.classList.add('mini-active');
+      
+      dataControladora.setFullYear(ano);
+      dataControladora.setMonth(mes);
+      dataControladora.setDate(dia);
+      carregarAgendamentos();
+    });
+
+    miniCalDaysGrid.appendChild(span);
+  }
+}
+
+// Configuração das setas do calendário
+document.addEventListener('DOMContentLoaded', () => {
+  const setasMini = document.querySelectorAll('.arrow-mini');
+  const miniCalDaysGrid = document.querySelector('.mini-cal-days-grid');
+  const miniMonthLabel = document.querySelector('.mini-month');
+  
+  if (setasMini.length >= 2 && miniCalDaysGrid) {
+    setasMini[0].addEventListener('click', () => {
+      dataControladora.setMonth(dataControladora.getMonth() - 1);
+      renderizarCalendario(miniCalDaysGrid, miniMonthLabel);
+      carregarAgendamentos();
+    });
+    setasMini[1].addEventListener('click', () => {
+      dataControladora.setMonth(dataControladora.getMonth() + 1);
+      renderizarCalendario(miniCalDaysGrid, miniMonthLabel);
+      carregarAgendamentos();
+    });
+  }
+});
+
+/* ==========================================
+   6. EXIBIÇÃO DE TOAST (AVISOS)
+   ========================================== */
+function exibirToast(mensagem) {
   const toast = document.getElementById('toast');
   const toastMessage = document.getElementById('toastMessage');
-
-  toastMessage.textContent = mensagem;
-
-  toast.classList.add('show');
-
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-}
-
-const tarefas = document.querySelectorAll('.task-item input[type="checkbox"]');
-
-tarefas.forEach((checkbox, index) => {
-  const salvo = localStorage.getItem(`tarefa-${index}`);
-
-  if (salvo === 'true') {
-    checkbox.checked = true;
-    checkbox.closest('.task-item').classList.add('checked');
+  if (toast && toastMessage) {
+    toastMessage.textContent = message = mensagem;
+    toast.style.display = 'block';
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toast.style.display = 'none';
+    }, 4000);
   } else {
-    checkbox.checked = false;
-    checkbox.closest('.task-item').classList.remove('checked');
+    alert(mensagem);
   }
-
-  checkbox.addEventListener('change', () => {
-    const item = checkbox.closest('.task-item');
-
-    item.classList.toggle('checked', checkbox.checked);
-
-    localStorage.setItem(`tarefa-${index}`, checkbox.checked);
-  });
-});
-
-const userProfile = document.querySelector('.user-profile');
-const profileMenu = document.querySelector('.profile-menu');
-const btnLogout = document.querySelector('.btn-logout');
-
-userProfile.addEventListener('click', () => {
-  profileMenu.classList.toggle('active');
-});
-
-btnLogout.addEventListener('click', () => {
-  localStorage.removeItem('usuarioLogado');
-  window.location.href = 'login.html';
-});
-
-renderizarAgendamentos();
+}
