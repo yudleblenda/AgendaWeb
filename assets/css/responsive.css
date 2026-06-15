@@ -1,0 +1,294 @@
+/* HOME */
+
+@media (max-width: 1100px) {
+  .app-container {
+    grid-template-columns: 80px 1fr;
+  }
+
+  .sidebar-right {
+    display: none;
+  }
+
+  .btn-new-event,
+  .user-info {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+    overflow: auto;
+  }
+
+  .app-container {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    border-radius: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-left {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-right: none;
+    border-bottom: 1px solid #ECECEC;
+    padding: 16px 20px;
+  }
+
+  .app-logo img {
+    margin: 0;
+  }
+
+  .bottom-nav {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .user-profile {
+    display: none;
+  }
+
+  .btn-new-event{
+    display: flex !important;
+    width: auto;
+    height: 42px;
+    padding: 0 18px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .app-container {
+    max-width: 430px;
+    overflow: visible;
+  }
+
+  .sidebar-left {
+   position: sticky;
+   top: 0;
+   z-index: 10;
+   background: white;
+   display: flex;
+   width: 100%;
+  }
+
+  .main-calendar {
+    padding: 70px 14px 14px;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  .calendar-header {
+    justify-content: center;
+  }
+
+  .calendar-header h2 {
+    font-size: 20px;
+  }
+
+  .week-days-grid {
+    grid-template-columns: repeat(12, 42px);
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 14px;
+    scrollbar-width: none;
+  }
+
+  .week-days-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hour-row {
+    min-height: 70px;
+  }
+
+  .toast {
+    right: 16px;
+    left: 16px;
+    top: 16px;
+  }
+
+  .day-col-header {
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .day-bubble {
+    width: 24px;
+    height: 24px;
+  }
+
+  .hour-slot {
+    padding-left: 6px;
+  }
+
+  .event-card {
+    padding: 10px 12px;
+  }
+
+}
+
+/* LANDING PAGE */
+
+@media (max-width: 768px) {
+  .header {
+    padding: 24px 20px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .nav-links {
+    gap: 24px;
+  }
+
+  .navbar .btn-primary {
+    padding: 14px 28px;
+  }
+
+  .hero {
+    padding: 40px 20px 70px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 40px;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-tag {
+    font-size: 14px;
+  }
+
+  .hero-title {
+    font-size: 42px;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    max-width: 100%;
+  }
+
+  .hero-title span::after {
+    width: 100%;
+    left: 0;
+    bottom: -12px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+    max-width: 100%;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-buttons a {
+    text-align: center;
+    width: 100%;
+  }
+
+  .hero-image {
+    width: 100%;
+  }
+
+  .hero-image img {
+    width: 100%;
+    max-width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 24px;
+  }
+
+  .features {
+    padding: 70px 20px;
+  }
+
+  .section-title {
+    font-size: 34px;
+    letter-spacing: -1px;
+    line-height: 1.15;
+  }
+
+  .feature-card {
+  min-height: auto;
+  padding: 28px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .cta {
+    margin: 70px 20px;
+    padding: 50px 28px;
+    flex-direction: column;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .cta-content h2 {
+    font-size: 36px;
+  }
+
+  .cta-image img {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cta-content,
+  .cta-image {
+    width: 100%;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .footer {
+    padding: 40px 20px;
+  }
+
+  .footer-content,
+  .footer-top,
+  .footer-bottom {
+    flex-direction: column;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .footer-links {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .nav-links {
+    gap: 18px;
+    font-size: 14px;
+  }
+
+  .logo span {
+    font-size: 24px;
+  }
+}

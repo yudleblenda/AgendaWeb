@@ -229,19 +229,3 @@ body {
 .buttons {
   margin-top: 25px;
 }
-
-@media (max-width: 768px) {
-
-  .cadastro-text h1 {
-    font-size: 40px;
-  }
-
-  .cadastro-text p {
-    font-size: 18px;
-  }
-
-  .logo span {
-    font-size: 34px;
-  }
-
-}
