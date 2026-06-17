@@ -1,0 +1,75 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+@media (max-width: 768px) {
+
+  .logo span {
+    font-size: 34px;
+  }
+
+}
+
+@media (max-width: 1400px) {
+  .login-image img {
+    max-width: 750px;
+  }
+}
+
+@media (max-width: 1400px) {
+
+}
+
+@media (max-width: 1200px) {
+  .login-image img {
+    max-width: 850px;
+  }
+}
+
+@media (max-width: 480px) {
+
+}
+
+/* TOAST */
+
+.custom-toast {
+  position: fixed;
+
+  top: 24px;
+  right: 24px;
+
+  padding: 16px 22px;
+
+  border-radius: 14px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  color: white;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+  transform: translateX(120%);
+  transition: all 0.3s ease;
+
+  z-index: 9999;
+}
+
+.custom-toast.show {
+  transform: translateX(0);
+}
+
+.custom-toast.success {
+  background: linear-gradient(135deg, #22C55E, #16A34A);
+}
+
+.custom-toast.error {
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+}

@@ -1,580 +1,351 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Agenda</title>
 
-  <title>Home - Agenda</title>
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- GOOGLE FONT -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- BOOTSTRAP -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-  <!-- BOOTSTRAP -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/global.css" />
+    <link rel="stylesheet" href="../assets/css/home.css" />
+  </head>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="../assets/css/home.css">
-</head>
+  <body>
+    <div class="app-container">
+      <!-- SIDEBAR ESQUERDA -->
 
-<body>
+      <aside class="sidebar-left">
+        <div class="top-nav">
+          <div class="app-logo">
+            <img src="../assets/image/calendar.svg" alt="Logo Agenda" />
 
-  <div class="app-container">
-
-    <!-- SIDEBAR ESQUERDA -->
-
-    <aside class="sidebar-left">
-
-      <div class="top-nav">
-
-        <div class="app-logo">
-
-          <img src="../assets/image/calendar.svg" alt="Logo Agenda">
-
-          <span>Agenda.</span>
-
-        </div>
-      </div>
-
-      <div class="bottom-nav">
-
-        <button
-          class="btn-new-event"
-          id="openModalBtn"
-        >
-          <span class="plus-icon">+</span>
-          Novo agendamento
-        </button>
-
-        <div class="user-profile">
-
-          <img
-            src="https://github.com/identicons/johndoe.png"
-            alt="Foto do usuário"
-            class="avatar"
-          >
-
-          <div class="user-info">
-
-            <span class="user-name">
-              João Lima
-            </span>
-
-            <i
-              data-lucide="chevron-right"
-              class="arrow-right"
-            ></i>
-
+            <span>Agenda.</span>
           </div>
-
-          <div class="profile-menu">
-
-            <button class="btn-logout">
-              Sair
-            </button>
-
-          </div>
-
         </div>
 
-      </div>
-
-    </aside>
-
-    <!-- CALENDÁRIO -->
-
-    <main class="main-calendar">
-
-      <header class="calendar-header">
-
-        <button class="btn-arrow">
-          &lt;
-        </button>
-
-        <h2>
-          Maio 2026
-        </h2>
-
-        <button class="btn-arrow">
-          &gt;
-        </button>
-
-      </header>
-
-      <!-- DIAS -->
-
-      <div class="week-days-grid">
-
-        <div class="day-col-header">
-          <span>S</span>
-          <span>27</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>T</span>
-          <span>28</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>Q</span>
-          <span>29</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>Q</span>
-          <span>30</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>S</span>
-          <span>1</span>
-        </div>
-
-        <div class="day-col-header active">
-          <span>S</span>
-          <span class="day-bubble">2</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>D</span>
-          <span>3</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>S</span>
-          <span>4</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>T</span>
-          <span>5</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>Q</span>
-          <span>6</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>Q</span>
-          <span>7</span>
-        </div>
-
-        <div class="day-col-header">
-          <span>S</span>
-          <span>8</span>
-        </div>
-
-      </div>
-
-      <!-- HORÁRIOS -->
-
-      <div class="hours-container">
-
-        <div class="hour-row">
-          <span class="time-label">08:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">09:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">10:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">11:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">12:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">13:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">14:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">15:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">16:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">17:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-        <div class="hour-row">
-          <span class="time-label">18:00</span>
-          <div class="hour-slot"></div>
-        </div>
-
-      </div>
-
-    </main>
-
-    <!-- SIDEBAR DIREITA -->
-
-    <aside class="sidebar-right">
-
-      <div class="today-info">
-
-        <h3>
-          Sábado,
-          <span class="highlight-date">
-            2 de Maio
-          </span>
-        </h3>
-
-      </div>
-
-      <!-- MINI CALENDÁRIO -->
-
-      <div class="mini-calendar">
-
-        <header class="mini-cal-header">
-
-          <span class="arrow-mini">
-            &lt;
-          </span>
-
-          <span class="mini-month">
-            Maio 2026
-          </span>
-
-          <span class="arrow-mini">
-            &gt;
-          </span>
-
-        </header>
-
-        <div class="mini-cal-days-grid">
-
-          <span class="week-label">D</span>
-          <span class="week-label">S</span>
-          <span class="week-label">T</span>
-          <span class="week-label">Q</span>
-          <span class="week-label">Q</span>
-          <span class="week-label">S</span>
-          <span class="week-label">S</span>
-
-          <span class="day-off">27</span>
-          <span class="day-off">28</span>
-          <span class="day-off">29</span>
-          <span class="day-off">30</span>
-
-          <span>1</span>
-          <span class="mini-active">2</span>
-          <span>3</span>
-
-          <span>4</span>
-          <span>5</span>
-          <span>6</span>
-          <span>7</span>
-          <span>8</span>
-          <span>9</span>
-          <span>10</span>
-
-          <span>11</span>
-          <span>12</span>
-          <span>13</span>
-          <span>14</span>
-          <span>15</span>
-          <span>16</span>
-          <span>17</span>
-
-          <span>18</span>
-          <span>19</span>
-          <span>20</span>
-          <span>21</span>
-          <span>22</span>
-          <span>23</span>
-          <span>24</span>
-
-          <span>25</span>
-          <span>26</span>
-          <span>27</span>
-          <span>28</span>
-          <span>29</span>
-          <span>30</span>
-          <span>31</span>
-
-        </div>
-
-      </div>
-
-      <!-- TAREFAS -->
-
-      <div class="tasks-section">
-
-        <h3>
-          Próximas tarefas
-        </h3>
-
-        <div
-          class="tasks-wrapper"
-          id="tasksWrapper"
-        >
-
-          <!-- TAREFAS DINÂMICAS -->
-
-        </div>
-
-      </div>
-
-    </aside>
-
-  </div>
-
-  <!-- MODAL -->
-
-  <div
-    class="modal-overlay"
-    id="modalNovoAgendamento"
-  >
-
-    <div class="modal-content">
-
-      <header class="modal-header">
-
-        <h2>
-          Novo agendamento
-        </h2>
-
-      </header>
-
-      <form
-        class="modal-form"
-        id="formAgendamento"
-      >
-
-        <div class="m-input-group">
-
-          <label>
-            Título do compromisso
-          </label>
-
-          <input
-            type="text"
-            id="titulo"
-            placeholder="Ex: Reunião com cliente"
-            required
-          >
-
-        </div>
-
-        <div class="m-input-group">
-
-          <label>
-            Descrição do compromisso
-          </label>
-
-          <textarea
-            id="descricao"
-            placeholder="Adicione detalhes sobre o compromisso..."
-          ></textarea>
-
-        </div>
-
-        <div class="m-form-grid">
-
-          <div class="m-input-group">
-
-            <label>
-              Data
-            </label>
-
-            <input
-              type="date"
-              id="data"
-              required
-            >
-
-          </div>
-
-          <div class="m-input-group">
-
-            <label>
-              Horário
-            </label>
-
-            <div class="time-range">
-
-              <input
-                type="time"
-                id="horaInicio"
-                required
-              >
-
-              <span>
-                até
-              </span>
-
-              <input
-                type="time"
-                id="horaFim"
-                required
-              >
-
+        <div class="bottom-nav">
+          <button class="btn-new-event" id="openModalBtn">
+            <span class="plus-icon">+</span>
+            Novo agendamento
+          </button>
+
+          <div class="user-profile">
+            <img
+              src="https://github.com/identicons/johndoe.png"
+              alt="Foto do usuário"
+              class="avatar"
+            />
+
+            <div class="user-info">
+              <span class="user-name" id="userName"> Usuário </span>
+
+              <i data-lucide="chevron-right" class="arrow-right"></i>
             </div>
 
+            <div class="profile-menu">
+              <button id="btnLogout" class="btn-logout">Sair</button>
+            </div>
           </div>
+        </div>
+      </aside>
+
+      <!-- CALENDÁRIO -->
+
+      <main class="main-calendar">
+        <header class="calendar-header">
+          <h2 id="tituloCalendario">Maio 2026</h2>
+        </header>
+
+        <!-- DIAS -->
+
+        <div class="week-days-grid" id="weekDaysGrid"></div>
+
+        <!-- HORÁRIOS -->
+
+        <div class="hours-container">
+          <div class="hour-row">
+            <span class="time-label">08:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">09:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">10:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">11:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">12:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">13:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">14:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">15:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">16:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">17:00</span>
+            <div class="hour-slot"></div>
+          </div>
+
+          <div class="hour-row">
+            <span class="time-label">18:00</span>
+            <div class="hour-slot"></div>
+          </div>
+        </div>
+      </main>
+
+      <!-- SIDEBAR DIREITA -->
+
+      <aside class="sidebar-right">
+
+        <div class="today-info">
+
+          <h3 id="dataAtualSidebar">
+               Sábado,
+            <span class="highlight-date">
+              2 de Maio
+            </span>
+          </h3>
 
         </div>
 
-        <div class="m-form-grid-three">
+        <!-- MINI CALENDÁRIO -->
 
-          <div class="m-input-group">
+        <div class="mini-calendar">
+          <header class="mini-cal-header">
+            <span class="arrow-mini"> &lt; </span>
 
-            <label>
-              Categoria
-            </label>
+            <span class="mini-month"> Maio 2026 </span>
 
-            <select id="categoria">
+            <span class="arrow-mini"> &gt; </span>
+          </header>
 
-              <option>
-                Lembretes
-              </option>
+          <div class="mini-cal-days-grid">
+            <span class="week-label">D</span>
+            <span class="week-label">S</span>
+            <span class="week-label">T</span>
+            <span class="week-label">Q</span>
+            <span class="week-label">Q</span>
+            <span class="week-label">S</span>
+            <span class="week-label">S</span>
 
-              <option>
-                Trabalho
-              </option>
+            <span class="day-off">27</span>
+            <span class="day-off">28</span>
+            <span class="day-off">29</span>
+            <span class="day-off">30</span>
 
-              <option>
-                Pessoal
-              </option>
+            <span>1</span>
+            <span class="mini-active">2</span>
+            <span>3</span>
 
-            </select>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span>7</span>
+            <span>8</span>
+            <span>9</span>
+            <span>10</span>
 
+            <span>11</span>
+            <span>12</span>
+            <span>13</span>
+            <span>14</span>
+            <span>15</span>
+            <span>16</span>
+            <span>17</span>
+
+            <span>18</span>
+            <span>19</span>
+            <span>20</span>
+            <span>21</span>
+            <span>22</span>
+            <span>23</span>
+            <span>24</span>
+
+            <span>25</span>
+            <span>26</span>
+            <span>27</span>
+            <span>28</span>
+            <span>29</span>
+            <span>30</span>
+            <span>31</span>
           </div>
+        </div>
 
+        <!-- TAREFAS -->
+
+        <div class="tasks-section">
+          <h3>Próximas tarefas</h3>
+
+          <div class="tasks-wrapper" id="tasksWrapper">
+            <!-- TAREFAS DINÂMICAS -->
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- MODAL -->
+
+    <div class="modal-overlay" id="modalNovoAgendamento">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2>Novo agendamento</h2>
+        </header>
+
+        <form class="modal-form" id="formAgendamento">
           <div class="m-input-group">
-
-            <label>
-              Local
-            </label>
+            <label> Título do compromisso </label>
 
             <input
               type="text"
-              id="local"
-              placeholder="Ex: Sala 301"
-            >
-
+              id="titulo"
+              placeholder="Ex: Reunião com cliente"
+              required
+            />
           </div>
 
           <div class="m-input-group">
+            <label> Descrição do compromisso </label>
 
-            <label>
-              Lembrete
-            </label>
-
-            <select id="lembrete">
-
-              <option>
-                10 minutos antes
-              </option>
-
-              <option>
-                30 minutos antes
-              </option>
-
-              <option>
-                1 hora antes
-              </option>
-
-            </select>
-
+            <textarea
+              id="descricao"
+              placeholder="Adicione detalhes sobre o compromisso..."
+            ></textarea>
           </div>
 
-        </div>
+          <div class="m-form-grid">
+            <div class="m-input-group">
+              <label> Data </label>
 
-        <div class="m-options">
+              <input type="date" id="data" required />
+            </div>
 
-          <label class="check-container">
+            <div class="m-input-group">
+              <label> Horário </label>
 
-            <input
-              type="checkbox"
-              id="recorrente"
-            >
+              <div class="time-range">
+                <input type="time" id="horaInicio" required />
 
-            Recorrente
+                <span> até </span>
 
-          </label>
+                <input type="time" id="horaFim" required />
+              </div>
+            </div>
+          </div>
 
-        </div>
+          <div class="m-form-grid-three">
+            <div class="m-input-group">
+              <label> Categoria </label>
 
-        <div class="modal-footer">
+              <select id="categoria">
+                <option>Lembretes</option>
 
-          <button
-            type="button"
-            class="btn-cancelar"
-            id="closeModalBtn"
-          >
-            Cancelar
-          </button>
+                <option>Trabalho</option>
 
-          <button
-            type="submit"
-            class="btn-criar"
-          >
-            Criar agendamento
-          </button>
+                <option>Pessoal</option>
+              </select>
+            </div>
 
-        </div>
+            <div class="m-input-group">
+              <label> Local </label>
 
-      </form>
+              <input type="text" id="local" placeholder="Ex: Sala 301" />
+            </div>
 
+            <div class="m-input-group">
+              <label> Lembrete </label>
+
+              <select id="lembrete">
+                <option>10 minutos antes</option>
+
+                <option>30 minutos antes</option>
+
+                <option>1 hora antes</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="m-options">
+            <label class="check-container">
+              <input type="checkbox" id="recorrente" />
+
+              Recorrente
+            </label>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-cancelar" id="closeModalBtn">
+              Cancelar
+            </button>
+
+            <button type="submit" class="btn-criar">Criar agendamento</button>
+          </div>
+        </form>
+      </div>
     </div>
 
-  </div>
+    <!-- TOAST -->
 
-  <!-- TOAST -->
+    <div class="toast" id="toast">
+      <span id="toastMessage"></span>
+    </div>
 
-  <div
-    class="toast"
-    id="toast"
-  >
+    <!-- JS -->
 
-    <span id="toastMessage"></span>
+    <script src="../assets/js/home.js"></script>
 
-  </div>
+    <!-- LUCIDE -->
 
-  <!-- JS -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-  <script src="../assets/js/home.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
 
-  <!-- LUCIDE -->
+    <!-- BOOTSTRAP -->
 
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <script>
-    lucide.createIcons();
-  </script>
-
-  <!-- BOOTSTRAP -->
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
