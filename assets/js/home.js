@@ -241,19 +241,11 @@ function renderizarProximasTarefas(agendamentos) {
     }
 
     // Busca ou cria uma div dedicada EXCLUSIVA para a lista para não zerar o calendário com innerHTML
-    let containerTarefas = document.getElementById("listaTarefasDinamica");
+    const containerTarefas = document.getElementById("tasksWrapper");
 
-    if (!containerTarefas) {
-      containerTarefas = document.createElement("div");
-      containerTarefas.id = "listaTarefasDinamica";
-      containerTarefas.style.marginTop = "20px";
-      containerTarefas.style.width = "100%";
-      sidebarRight.appendChild(containerTarefas);
-    }
+    if (!containerTarefas) return;
 
-    // Limpa apenas o interior da área dedicada às tarefas
-    containerTarefas.innerHTML =
-      '<h3 style="font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #1f2937;">Próximas tarefas</h3>';
+    containerTarefas.innerHTML = "";
 
     // Cria uma caixinha interna para listar os itens organizados
     const listaItens = document.createElement("div");
@@ -474,6 +466,21 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
+
+  let larguraAnterior = window.innerWidth;
+
+  window.addEventListener("resize", () => {
+    const mudouBreakpoint =
+      (larguraAnterior < 768 && window.innerWidth >= 768) ||
+      (larguraAnterior >= 768 && window.innerWidth < 768);
+
+    if (mudouBreakpoint) {
+      renderizarDiasTopo();
+    }
+
+    larguraAnterior = window.innerWidth;
+  });
+
   const setasMini = document.querySelectorAll(".arrow-mini");
   const miniCalDaysGrid = document.querySelector(".mini-cal-days-grid");
   const miniMonthLabel = document.querySelector(".mini-month");
@@ -574,25 +581,23 @@ function renderizarDiasTopo() {
 
   const dataBase = new Date(dataControladora);
 
-  if (window.innerWidth < 768) {
-    dataBase.setDate(dataBase.getDate() - 3);
-  } else {
-    dataBase.setDate(dataBase.getDate() - 5);
-  }
-
+  // Mobile = 7 dias
+  // Desktop = 12 dias
   let totalDias;
 
-  if (window.innerWidth <= 400) {
-    totalDias = 7; // iPhone SE
-  } else if (window.innerWidth <= 768) {
-    totalDias = 7; // iPhone 14, Galaxy S20
+  if (window.innerWidth < 768) {
+    dataBase.setDate(dataControladora.getDate() - 3);
+    totalDias = 7;
   } else {
-    totalDias = 12; // Tablet e Desktop
+    dataBase.setDate(dataControladora.getDate() - 5);
+    totalDias = 12;
   }
+
+  console.log("Largura:", window.innerWidth);
+  console.log("Total dias:", totalDias);
 
   for (let i = 0; i < totalDias; i++) {
     const data = new Date(dataBase);
-
     data.setDate(dataBase.getDate() + i);
 
     const coluna = document.createElement("div");

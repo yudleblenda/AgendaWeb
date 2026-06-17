@@ -13,6 +13,7 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
 
     <!-- BOOTSTRAP -->
@@ -40,17 +41,15 @@
         </div>
 
         <div class="bottom-nav">
-          <button class="btn-new-event" id="openModalBtn">
-            <span class="plus-icon">+</span>
-            Novo agendamento
+          <button id="openModalBtn" class="btn-new-event">
+            <span class="btn-mobile">+</span>
+            <span class="btn-desktop">+ Novo agendamento</span>
           </button>
 
           <div class="user-profile">
-            <img
-              src="https://github.com/identicons/johndoe.png"
-              alt="Foto do usuário"
-              class="avatar"
-            />
+            <div class="avatar">
+              <i data-lucide="user"></i>
+            </div>
 
             <div class="user-info">
               <span class="user-name" id="userName"> Usuário </span>

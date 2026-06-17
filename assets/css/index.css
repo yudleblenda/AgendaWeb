@@ -486,10 +486,10 @@ section {
   }
 
   .hero-title span::after {
-  width: 100%;
-  left: 0;
-  bottom: -12px;
-}
+    width: 100%;
+    left: 0;
+    bottom: -12px;
+  }
 
   .hero-description {
     font-size: 16px;
@@ -529,8 +529,8 @@ section {
   }
 
   .feature-card {
-  min-height: auto;
-  padding: 28px;
+    min-height: auto;
+    padding: 28px;
   }
 
   .features-grid {
@@ -540,29 +540,44 @@ section {
 
   .cta {
     margin: 70px 20px;
-    padding: 50px 28px;
+    padding: 50px 20px;
     flex-direction: column;
     text-align: center;
     overflow: hidden;
   }
 
   .cta-content h2 {
-    font-size: 36px;
+    font-size: 30px;
   }
 
   .cta-image img {
+    display: block;
+    width: 85%;
+    max-width: 280px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .cta-section {
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .cta-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    max-width: 100%;
   }
 
   .cta-content,
   .cta-image {
-  width: 100%;
-}
+    width: 100%;
+  }
 
-body {
-  overflow-x: hidden;
-}
+  body {
+    overflow-x: hidden;
+  }
 
   .footer {
     padding: 40px 20px;
