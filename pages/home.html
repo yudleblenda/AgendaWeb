@@ -68,7 +68,15 @@
 
       <main class="main-calendar">
         <header class="calendar-header">
+          <button id="btnMesAnterior" class="btn-arrow">
+            <i data-lucide="chevron-left"></i>
+          </button>
+
           <h2 id="tituloCalendario">Maio 2026</h2>
+
+          <button id="btnMesProximo" class="btn-arrow">
+            <i data-lucide="chevron-right"></i>
+          </button>
         </header>
 
         <!-- DIAS -->
@@ -213,13 +221,12 @@
           </div>
         </div>
 
-        <!-- TAREFAS -->
 
         <div class="tasks-section">
-          <h3>Próximas tarefas</h3>
+          <h3>Tarefas agendadas</h3>
 
           <div class="tasks-wrapper" id="tasksWrapper">
-            <!-- TAREFAS DINÂMICAS -->
+
           </div>
         </div>
       </aside>

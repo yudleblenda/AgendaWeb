@@ -7,13 +7,23 @@ if (!usuarioLogado) {
 // URL do backend
 const API_URL = "http://localhost:3333/agendamentos";
 
+function obterCorCategoria(categoria) {
+  const cores = {
+    Trabalho: "#3b82f6",
+    Pessoal: "#8b5cf6",
+    Lembretes: "#f59e0b",
+  };
+
+  return cores[categoria] || "#6b7280";
+}
+
 let dataControladora = new Date();
 
 let modal;
 let formAgendamento;
 let agendamentoEmEdicao = null;
 
-/* Inicialização segura e carregamento */
+// Inicialização segura e carregamento
 document.addEventListener("DOMContentLoaded", () => {
   const usuario = JSON.parse(localStorage.getItem("usuarioAgenda"));
 
@@ -51,7 +61,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     atualizarDataSidebar();
 
-    /* CONTROLE DO MODAL (ABRIR E FECHAR) */
+    const btnMesAnterior =
+      document.getElementById("btnMesAnterior");
+
+    const btnMesProximo =
+      document.getElementById("btnMesProximo");
+
+    btnMesAnterior?.addEventListener("click", () => {
+      dataControladora.setMonth(
+        dataControladora.getMonth() - 1
+      );
+
+      atualizarTituloCalendario();
+      renderizarDiasTopo();
+      atualizarDataSidebar();
+      carregarAgendamentos();
+    });
+
+    btnMesProximo?.addEventListener("click", () => {
+      dataControladora.setMonth(
+        dataControladora.getMonth() + 1
+      );
+
+      atualizarTituloCalendario();
+      renderizarDiasTopo();
+      atualizarDataSidebar();
+      carregarAgendamentos();
+});
+
+    // MODAL
     if (openModalBtn && modal) {
       openModalBtn.addEventListener("click", () => {
         agendamentoEmEdicao = null;
@@ -74,14 +112,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    /* ENVIO PARA O BACKEND */
+    // Envio para o backend
     if (formAgendamento) {
       formAgendamento.addEventListener("submit", async (e) => {
         e.preventDefault();
         console.log("Botão Criar Agendamento clicado!");
 
-        try {
-          // Coleta os dados usando Optional Chaining (?.) para evitar quebras se o ID não existir
+        try { 
           const agendamento = {
             titulo: document.getElementById("titulo")?.value || "",
             descricao: document.getElementById("descricao")?.value || "",
@@ -124,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (modal) modal.classList.remove("active");
 
-            carregarAgendamentos(); // Atualiza a lista
+            carregarAgendamentos();
           } else {
             const resultado = await resposta.json();
             exibirToast(
@@ -145,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* BUSCAR E RENDERIZAR AGENDAMENTOS (GET) */
+// BUSCAR E RENDERIZAR AGENDAMENTOS
 async function carregarAgendamentos() {
   try {
     const resposta = await fetch(API_URL);
@@ -162,10 +199,8 @@ async function carregarAgendamentos() {
   }
 }
 
-// 4.1 Desenha os blocos de compromissos na Agenda Central (Corrigido)
 function renderizarLinhaDoTempo(agendamentos) {
   try {
-    // Remove os blocos antigos para não duplicar
     document
       .querySelectorAll(".compromisso-card, .event-block")
       .forEach((el) => el.remove());
@@ -181,7 +216,6 @@ function renderizarLinhaDoTempo(agendamentos) {
 
       const dataSelecionadaStr = `${anoC}-${mesC}-${diaC}`;
 
-      // Só mostra os eventos do dia selecionado
       if (dataFormatada === dataSelecionadaStr) {
         const horaInicio = item.horario_inicio.substring(0, 5);
         const horaChave = item.horario_inicio.split(":")[0] + ":00";
@@ -198,42 +232,48 @@ function renderizarLinhaDoTempo(agendamentos) {
 
             divCompromisso.className = "compromisso-card";
 
-            divCompromisso.style.background = "#e0ebff";
-            divCompromisso.style.borderLeft = "4px solid #2563eb";
-            divCompromisso.style.padding = "8px";
-            divCompromisso.style.margin = "4px 0";
-            divCompromisso.style.borderRadius = "6px";
-            divCompromisso.style.zIndex = "10";
+            divCompromisso.style.borderLeftColor =
+              obterCorCategoria(item.categoria);
 
             divCompromisso.innerHTML = `
-              <strong style="color:#1e40af; display:block;">
-                ${item.titulo}
-              </strong>
+              <div class="evento-header">
+                <strong class="evento-titulo">
+                  ${item.titulo}
+                </strong>
 
-              <span style="font-size:12px; color:#4b5563;">
-                ${horaInicio} - ${item.localizacao || "Sem local"}
+                <div class="evento-actions">
+                  <button
+                    class="btn-edit-calendar"
+                    title="Editar"
+                  >
+                    <i data-lucide="pencil"></i>
+                  </button>
+
+                  <button
+                    class="btn-delete-calendar"
+                    title="Excluir"
+                  >
+                    <i data-lucide="trash-2"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="evento-meta">
+              <span class="evento-hora">
+                ${horaInicio}
               </span>
 
-              <div style="
-                display:flex;
-                justify-content:flex-end;
-                gap:8px;
-                margin-top:6px;
-              ">
-                <button
-                  class="btn-edit-calendar"
-                  title="Editar"
-                >
-                  <i data-lucide="pencil"></i>
-                </button>
-
-                <button
-                  class="btn-delete-calendar"
-                  title="Excluir"
-                >
-                  <i data-lucide="trash-2"></i>
-                </button>
-              </div>
+              ${
+                item.localizacao
+                  ? `<span class="evento-local">• ${item.localizacao}</span>`
+                  : ""
+              }
+            </div>
+              ${
+                item.descricao
+                  ? `<p class="evento-desc">${item.descricao}</p>`
+                  : ""
+              }
             `;
 
             const btnEditar =
@@ -274,12 +314,6 @@ function renderizarLinhaDoTempo(agendamentos) {
             );
 
             btnExcluir.addEventListener("click", async () => {
-              const confirmar = confirm(
-                `Deseja realmente excluir "${item.titulo}"?`,
-              );
-
-              if (!confirmar) return;
-
               try {
                 const response = await fetch(`${API_URL}/${item.id}`, {
                   method: "DELETE",
@@ -311,10 +345,8 @@ function renderizarLinhaDoTempo(agendamentos) {
   }
 }
 
-// 4.2 Lista todos os agendamentos na lateral direita (Preservando o mini-calendário)
 function renderizarProximasTarefas(agendamentos) {
   try {
-    // Procura o elemento maior da barra lateral direita
     const sidebarRight =
       document.querySelector(".sidebar-right") ||
       document.querySelector("aside");
@@ -325,26 +357,22 @@ function renderizarProximasTarefas(agendamentos) {
       return;
     }
 
-    // Busca ou cria uma div dedicada EXCLUSIVA para a lista para não zerar o calendário com innerHTML
     const containerTarefas = document.getElementById("tasksWrapper");
 
     if (!containerTarefas) return;
 
     containerTarefas.innerHTML = "";
 
-    // Cria uma caixinha interna para listar os itens organizados
     const listaItens = document.createElement("div");
     listaItens.style.display = "flex";
     listaItens.style.flexDirection = "column";
     listaItens.style.gap = "12px";
     listaItens.style.marginTop = "10px";
 
-    // Ordena os agendamentos por data para mostrar os mais próximos primeiro
     const ordenados = [...agendamentos].sort(
       (a, b) => new Date(a.data) - new Date(b.data),
     );
 
-    // Pega os 5 primeiros agendamentos e coloca na lista lateral
     ordenados.slice(0, 5).forEach((item) => {
       if (!item.data) return;
 
@@ -362,7 +390,9 @@ function renderizarProximasTarefas(agendamentos) {
       divTarefa.style.padding = "10px";
       divTarefa.style.background = "#f9fafb";
       divTarefa.style.borderRadius = "8px";
-      divTarefa.style.borderLeft = "4px solid #3b82f6";
+      divTarefa.style.borderLeft = `4px solid ${obterCorCategoria(item.categoria)}`;
+
+      const corCategoria = obterCorCategoria(item.categoria);
 
       divTarefa.innerHTML = `
         <div>
@@ -376,7 +406,7 @@ function renderizarProximasTarefas(agendamentos) {
 
         <div style="display:flex; align-items:center; gap:10px;">
           <div style="text-align: right; font-size: 12px; color: #4b5563;">
-            <span style="font-weight: bold; color: #2563eb;">
+            <span style="font-weight: bold; color: ${corCategoria};">
               ${dataExibicao}
             </span>
             <span style="display: block; font-size: 11px; color: #9ca3af;">
@@ -539,7 +569,7 @@ function renderizarCalendario(miniCalDaysGrid, miniMonthLabel) {
   }
 }
 
-// setas do calendário
+// Setas do calendário
 document.addEventListener("DOMContentLoaded", () => {
   ["data", "horaInicio", "horaFim"].forEach((id) => {
     const campo = document.getElementById(id);
