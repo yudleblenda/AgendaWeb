@@ -7,11 +7,9 @@ function mostrarToast(mensagem, tipo = "success") {
   }
 
   const toast = document.createElement("div");
-  // Usa o nome exato da classe que sua amiga definiu no CSS
   toast.className = `custom-toast ${tipo}`;
   
-  const icone = tipo === "success" ? "✅" : "❌";
-  toast.innerHTML = `<span>${icone}</span> <span>${mensagem}</span>`;
+  toast.innerHTML = `<span>${mensagem}</span>`;
 
   container.appendChild(toast);
 
@@ -27,9 +25,8 @@ function mostrarToast(mensagem, tipo = "success") {
   }, 3000);
 }
 
-// Se já estiver logado, redireciona para a home dentro da pasta 'pages'
 if (localStorage.getItem("usuarioLogado")) {
-  window.location.href = "home.html"; // Caso já esteja na pasta pages
+  window.location.href = "home.html";
 }
 
 const loginForm = document.querySelector(".login-form") || document.querySelector("form");
@@ -64,7 +61,6 @@ if (loginForm) {
         return;
       }
 
-      // MANTÉM A ATUALIZAÇÃO DELA: Salva as informações do usuário logado
       localStorage.setItem(
         "usuarioAgenda",
         JSON.stringify({
@@ -78,7 +74,6 @@ if (loginForm) {
       if (typeof mostrarToast === "function") mostrarToast("Login realizado com sucesso!");
       else alert("Login realizado com sucesso!");
 
-      // CORREÇÃO: Garante o redirecionamento correto estando dentro ou fora da pasta pages
       setTimeout(() => {
         window.location.href = window.location.pathname.includes("/pages/") ? "home.html" : "pages/home.html";
       }, 1500);

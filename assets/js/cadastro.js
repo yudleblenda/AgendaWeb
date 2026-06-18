@@ -7,11 +7,10 @@ function mostrarToast(mensagem, tipo = "success") {
   }
 
   const toast = document.createElement("div");
-  // Usa o nome exato da classe que sua amiga definiu no CSS
+
   toast.className = `custom-toast ${tipo}`;
   
-  const icone = tipo === "success" ? "✅" : "❌";
-  toast.innerHTML = `<span>${icone}</span> <span>${mensagem}</span>`;
+  toast.innerHTML = `<span>${mensagem}</span>`;
 
   container.appendChild(toast);
 
@@ -80,7 +79,6 @@ if (cadastroForm) {
       if (typeof mostrarToast === "function") mostrarToast("Conta criada com sucesso!");
       else alert("Conta criada com sucesso!");
 
-      // CORREÇÃO: Redireciona para o login na pasta certa
       setTimeout(() => {
         window.location.href = window.location.pathname.includes("/pages/") ? "login.html" : "pages/login.html";
       }, 2000);

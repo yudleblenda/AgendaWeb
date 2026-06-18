@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     agendamentoEmEdicao = null;
 
-    // Inicialização
     carregarAgendamentos();
 
     atualizarTituloCalendario();
@@ -214,13 +213,99 @@ function renderizarLinhaDoTempo(agendamentos) {
               <span style="font-size:12px; color:#4b5563;">
                 ${horaInicio} - ${item.localizacao || "Sem local"}
               </span>
+
+              <div style="
+                display:flex;
+                justify-content:flex-end;
+                gap:8px;
+                margin-top:6px;
+              ">
+                <button
+                  class="btn-edit-calendar"
+                  title="Editar"
+                >
+                  <i data-lucide="pencil"></i>
+                </button>
+
+                <button
+                  class="btn-delete-calendar"
+                  title="Excluir"
+                >
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
             `;
+
+            const btnEditar =
+              divCompromisso.querySelector(".btn-edit-calendar");
+
+            btnEditar.addEventListener("click", () => {
+              agendamentoEmEdicao = item.id;
+
+              document.getElementById("titulo").value = item.titulo || "";
+              document.getElementById("descricao").value = item.descricao || "";
+
+              document.getElementById("data").value = item.data
+                ? item.data.split("T")[0]
+                : "";
+
+              document.getElementById("horaInicio").value = item.horario_inicio
+                ? item.horario_inicio.substring(0, 5)
+                : "";
+
+              document.getElementById("horaFim").value = item.horario_fim
+                ? item.horario_fim.substring(0, 5)
+                : "";
+
+              document.getElementById("categoria").value = item.categoria || "";
+
+              document.getElementById("local").value = item.localizacao || "";
+
+              document.getElementById("lembrete").value = item.lembrete || "";
+
+              document.getElementById("recorrente").checked =
+                item.recorrente === 1;
+
+              modal.classList.add("active");
+            });
+
+            const btnExcluir = divCompromisso.querySelector(
+              ".btn-delete-calendar",
+            );
+
+            btnExcluir.addEventListener("click", async () => {
+              const confirmar = confirm(
+                `Deseja realmente excluir "${item.titulo}"?`,
+              );
+
+              if (!confirmar) return;
+
+              try {
+                const response = await fetch(`${API_URL}/${item.id}`, {
+                  method: "DELETE",
+                });
+
+                const resultado = await response.json();
+
+                if (!response.ok) {
+                  throw new Error(
+                    resultado.erro || "Erro ao excluir agendamento",
+                  );
+                }
+
+                exibirToast("Agendamento excluído com sucesso!");
+                carregarAgendamentos();
+              } catch (error) {
+                console.error(error);
+                exibirToast("Erro ao excluir agendamento.");
+              }
+            });
 
             slotDestino.appendChild(divCompromisso);
           }
         });
       }
-    });
+    }); lucide.createIcons();
   } catch (e) {
     console.error("Erro ao renderizar linha do tempo:", e);
   }
@@ -264,7 +349,7 @@ function renderizarProximasTarefas(agendamentos) {
       if (!item.data) return;
 
       const dataPartes = item.data.split("T")[0].split("-");
-      const dataExibicao = `${dataPartes[2]}/${dataPartes[1]}`; // Formato DD/MM
+      const dataExibicao = `${dataPartes[2]}/${dataPartes[1]}`;
       const horaInicio = item.horario_inicio
         ? item.horario_inicio.substring(0, 5)
         : "00:00";
@@ -303,7 +388,7 @@ function renderizarProximasTarefas(agendamentos) {
             class="btn-edit-event"
             title="Editar"
           >
-            ✎
+            <i data-lucide="pencil"></i>
           </button>
 
           <button
@@ -311,7 +396,7 @@ function renderizarProximasTarefas(agendamentos) {
             data-id="${item.id}"
             title="Excluir agendamento"
           >
-            ×
+            <i data-lucide="trash-2"></i>
           </button>
           </div>
         `;
@@ -373,6 +458,7 @@ function renderizarProximasTarefas(agendamentos) {
       });
 
       listaItens.appendChild(divTarefa);
+      lucide.createIcons();
     });
 
     containerTarefas.appendChild(listaItens);
@@ -381,7 +467,7 @@ function renderizarProximasTarefas(agendamentos) {
   }
 }
 
-/* FUNÇÕES DO CALENDÁRIO DINÂMICO */
+// Funções do calendário dinâmico
 function renderizarCalendario(miniCalDaysGrid, miniMonthLabel) {
   const ano = dataControladora.getFullYear();
   const mes = dataControladora.getMonth();
@@ -453,7 +539,7 @@ function renderizarCalendario(miniCalDaysGrid, miniMonthLabel) {
   }
 }
 
-// Configuração das setas do calendário
+// setas do calendário
 document.addEventListener("DOMContentLoaded", () => {
   ["data", "horaInicio", "horaFim"].forEach((id) => {
     const campo = document.getElementById(id);
@@ -505,7 +591,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* EXIBIÇÃO DE TOAST (AVISOS) */
+/* TOAST */
 function exibirToast(mensagem) {
   const toast = document.getElementById("toast");
   const toastMessage = document.getElementById("toastMessage");
@@ -581,8 +667,6 @@ function renderizarDiasTopo() {
 
   const dataBase = new Date(dataControladora);
 
-  // Mobile = 7 dias
-  // Desktop = 12 dias
   let totalDias;
 
   if (window.innerWidth < 768) {
