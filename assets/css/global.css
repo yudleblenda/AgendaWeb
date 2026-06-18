@@ -10,11 +10,9 @@ img {
 }
 
 @media (max-width: 768px) {
-
   .logo span {
     font-size: 34px;
   }
-
 }
 
 @media (max-width: 1400px) {
@@ -23,43 +21,39 @@ img {
   }
 }
 
-@media (max-width: 1400px) {
-
-}
-
 @media (max-width: 1200px) {
   .login-image img {
     max-width: 850px;
   }
 }
 
-@media (max-width: 480px) {
-
-}
-
-/* TOAST */
-
-.custom-toast {
+/* ========================================================
+   CONTAINER E COMPORTAMENTO DOS TOASTS (AVISOS MODERNOS)
+   ======================================================== */
+.toast-container {
   position: fixed;
-
   top: 24px;
   right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-  padding: 16px 22px;
-
+.custom-toast {
+  padding: 16px 24px;
   border-radius: 14px;
-
+  font-family: 'Inter', sans-serif;
   font-size: 15px;
   font-weight: 600;
-
   color: white;
-
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
   transform: translateX(120%);
-  transition: all 0.3s ease;
-
-  z-index: 9999;
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  backdrop-filter: blur(4px);
 }
 
 .custom-toast.show {
@@ -68,8 +62,10 @@ img {
 
 .custom-toast.success {
   background: linear-gradient(135deg, #22C55E, #16A34A);
+  border-left: 5px solid #0f766e;
 }
 
 .custom-toast.error {
   background: linear-gradient(135deg, #EF4444, #DC2626);
+  border-left: 5px solid #991b1b;
 }

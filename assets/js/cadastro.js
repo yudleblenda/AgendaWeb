@@ -1,60 +1,94 @@
+function mostrarToast(mensagem, tipo = "success") {
+  let container = document.querySelector(".toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.className = "toast-container";
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement("div");
+  // Usa o nome exato da classe que sua amiga definiu no CSS
+  toast.className = `custom-toast ${tipo}`;
+  
+  const icone = tipo === "success" ? "✅" : "❌";
+  toast.innerHTML = `<span>${icone}</span> <span>${mensagem}</span>`;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 10);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, 3000);
+}
+
 if (localStorage.getItem("usuarioLogado")) {
   window.location.href = "home.html";
 }
 
-const cadastroForm = document.querySelector(".cadastro-form");
+const cadastroForm = document.querySelector(".cadastro-form") || document.querySelector("form");
 
-cadastroForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
+if (cadastroForm) {
+  cadastroForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  const nome = document.getElementById("nome").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const senha = document.getElementById("senha").value.trim();
-  const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value.trim();
+    const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
-  if (!nome || !email || !senha || !confirmarSenha) {
-    mostrarToast("Preencha todos os campos.", "error");
-    return;
-  }
-
-  if (senha.length < 6) {
-    mostrarToast("A senha deve ter pelo menos 6 caracteres.", "error");
-    return;
-  }
-
-  if (senha !== confirmarSenha) {
-    mostrarToast("As senhas não coincidem.", "error");
-    return;
-  }
-
-  try {
-    const resposta = await fetch("http://localhost:3333/usuarios", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nome,
-        email,
-        senha,
-      }),
-    });
-
-    const resultado = await resposta.json();
-
-    if (!resposta.ok) {
-      mostrarToast(resultado.erro || "Erro ao cadastrar.", "error");
+    if (!nome || !email || !senha || !confirmarSenha) {
+      if (typeof mostrarToast === "function") mostrarToast("Preencha todos os campos.", "error");
+      else alert("Preencha todos os campos.");
       return;
     }
 
-    mostrarToast("Conta criada com sucesso!");
+    if (senha.length < 6) {
+      if (typeof mostrarToast === "function") mostrarToast("A senha deve ter pelo menos 6 caracteres.", "error");
+      else alert("A senha deve ter pelo menos 6 caracteres.");
+      return;
+    }
 
-    setTimeout(() => {
-      window.location.href = "login.html";
-    }, 2000);
+    if (senha !== confirmarSenha) {
+      if (typeof mostrarToast === "function") mostrarToast("As senhas não coincidem.", "error");
+      else alert("As senhas não coincidem.");
+      return;
+    }
 
-  } catch (erro) {
-    console.error(erro);
-    mostrarToast("Erro ao conectar com o servidor.", "error");
-  }
-});
+    try {
+      const resposta = await fetch("http://localhost:3333/usuarios", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nome, email, senha }),
+      });
+
+      const resultado = await resposta.json();
+
+      if (!resposta.ok) {
+        if (typeof mostrarToast === "function") mostrarToast(resultado.erro || "Erro ao cadastrar.", "error");
+        else alert(resultado.erro || "Erro ao cadastrar.");
+        return;
+      }
+
+      if (typeof mostrarToast === "function") mostrarToast("Conta criada com sucesso!");
+      else alert("Conta criada com sucesso!");
+
+      // CORREÇÃO: Redireciona para o login na pasta certa
+      setTimeout(() => {
+        window.location.href = window.location.pathname.includes("/pages/") ? "login.html" : "pages/login.html";
+      }, 2000);
+
+    } catch (erro) {
+      console.error(erro);
+      if (typeof mostrarToast === "function") mostrarToast("Erro ao conectar com o servidor.", "error");
+      else alert("Erro ao conectar com o servidor.");
+    }
+  });
+}
