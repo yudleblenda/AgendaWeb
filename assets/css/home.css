@@ -1072,6 +1072,18 @@ input[type="time"] {
   .time-range input {
     min-width: 0;
   }
+
+  .evento-actions {
+    opacity: 1;
+  }
+
+  .compromisso-card {
+    padding-right: 8px;
+  }
+
+  .evento-header {
+    align-items: center;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1100px) {
