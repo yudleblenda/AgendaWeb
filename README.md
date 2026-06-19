@@ -1,6 +1,6 @@
 # Agenda Web
 
-Sistema web de agendamento desenvolvido com HTML, CSS, JavaScript, Bootstrap, Node.js e MySQL.
+Sistema web de agendamento desenvolvido com HTML, CSS, JavaScript, Bootstrap, Node.js, MySQL e RabbitMQ.
 ---
 
 ## Sobre o projeto
